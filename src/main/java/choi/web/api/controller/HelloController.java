@@ -1,4 +1,4 @@
-package choi.web.api.Controller;
+package choi.web.api.controller;
 
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
