@@ -3,11 +3,13 @@ package choi.web.api.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class SampleController {
 
     /* HTTP Request Mapping 및 Swagger 샘플 */
@@ -33,6 +35,13 @@ public class SampleController {
     @DeleteMapping("/sample/delete")
     public String deleteMethod(@ApiParam(value = "유저 DTO") @RequestBody SampleUser sampleUser) {
         return "DELETE : " + sampleUser.getName();
+    }
+
+    /* Logback 예제 */
+    @GetMapping("/sample/log")
+    public String log() {
+        log.info("Call Log()");
+        return "LOG SUCCESS";
     }
 
 }
