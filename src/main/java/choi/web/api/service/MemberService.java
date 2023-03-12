@@ -29,4 +29,37 @@ public class MemberService {
         return memberJpaRepository.findByMemberId(memberId);
     }
 
+    /**
+     * 회원 등록
+     */
+    @Transactional
+    public Member saveMember(Member member) {
+        return memberJpaRepository.save(member);
+    }
+
+    /**
+     * 회원 수정
+     */
+    @Transactional
+    public Member editMember(Long memberId, Member member) {
+        Member findMember = memberJpaRepository.findByMemberId(memberId);
+        if (member.getName() != null) {
+            findMember.setName(member.getName());
+        }
+        if (member.getBirth() != null) {
+            findMember.setBirth(member.getBirth());
+        }
+
+        // return memberJpaRepository.save(findMember); // Dirty Checking
+        return findMember;
+    }
+
+    /**
+     * 회원 삭제
+     */
+    @Transactional
+    public void deleteMember(Long memberId) {
+        memberJpaRepository.deleteById(memberId);
+    }
+
 }

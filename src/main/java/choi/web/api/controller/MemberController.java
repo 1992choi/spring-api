@@ -1,12 +1,11 @@
 package choi.web.api.controller;
 
+import choi.web.api.domain.Member;
 import choi.web.api.domain.ResponseData;
 import choi.web.api.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,13 +20,10 @@ public class MemberController {
     public ResponseEntity findMembers() {
         ResponseData responseData = ResponseData.builder()
                 .resultCode("0000")
-                .resultMessage("SUCCESS")
                 .resultData(memberService.findAllMember())
                 .build();
 
-        return ResponseEntity
-                .ok()
-                .body(responseData);
+        return ResponseEntity.ok(responseData);
     }
 
     /**
@@ -37,14 +33,62 @@ public class MemberController {
     public ResponseEntity findMember(@PathVariable Long memberId) {
         ResponseData responseData = ResponseData.builder()
                 .resultCode("0000")
-                .resultMessage("SUCCESS")
                 .resultData(memberService.findMember(memberId))
                 .build();
 
-        return ResponseEntity
-                .ok()
-                .body(responseData);
+        return ResponseEntity.ok(responseData);
     }
 
+    /**
+     * 회원 등록
+     */
+    @PostMapping("/members")
+    public ResponseEntity saveMember(@RequestBody Member member) {
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .resultCode("0000")
+                        .resultData(memberService.saveMember(member))
+                        .build()
+        );
+    }
+
+    /**
+     * 회원 수정
+     */
+    @PutMapping("/members/{memberId}")
+    public ResponseEntity editMember(@PathVariable Long memberId, @RequestBody Member member) {
+        Member editMember = null;
+
+        try {
+            editMember = memberService.editMember(memberId, member);
+        } catch (Exception e) {
+        }
+
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .resultCode(editMember == null ? "9999" : "0000")
+                        .resultData(editMember)
+                        .build()
+        );
+    }
+
+    /**
+     * 회원 삭제
+     */
+    @DeleteMapping("/members/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable Long memberId) {
+        boolean isSuccess = true;
+        try {
+            memberService.deleteMember(memberId);
+        } catch (Exception e) {
+            isSuccess = false;
+        }
+
+        return ResponseEntity.ok(
+                ResponseData.builder()
+                        .resultCode(isSuccess ? "0000" : "9999")
+                        .build()
+        );
+    }
 
 }

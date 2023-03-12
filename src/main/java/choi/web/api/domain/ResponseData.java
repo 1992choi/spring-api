@@ -9,8 +9,6 @@ public class ResponseData {
 
     String resultCode;
 
-    String resultMessage;
-
     Object resultData;
 
 }
