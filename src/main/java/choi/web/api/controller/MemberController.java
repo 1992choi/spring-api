@@ -3,6 +3,8 @@ package choi.web.api.controller;
 import choi.web.api.domain.Member;
 import choi.web.api.domain.ResponseData;
 import choi.web.api.service.MemberService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class MemberController {
     /**
      * 회원 목록 조회
      */
+    @ApiOperation(value = "회원 목록 조회", notes = "전체 회원을 조회한다.")
     @GetMapping("/members")
     public ResponseEntity<EntityModel<ResponseData>> findMembers() {
         List<EntityModel<Member>> members = memberService.findAllMember().stream().map(member -> {
@@ -43,8 +46,9 @@ public class MemberController {
     /**
      * 회원 조회
      */
+    @ApiOperation(value = "회원 조회", notes = "특정 회원을 조회한다.")
     @GetMapping("/members/{memberId}")
-    public ResponseEntity<EntityModel<ResponseData>> findMember(@PathVariable Long memberId) {
+    public ResponseEntity<EntityModel<ResponseData>> findMember(@ApiParam(value = "회원 ID") @PathVariable Long memberId) {
         return ResponseEntity.ok().body(
                 EntityModel
                         .of(ResponseData.builder()
@@ -61,8 +65,9 @@ public class MemberController {
     /**
      * 회원 등록
      */
+    @ApiOperation(value = "회원 등록", notes = "회원을 등록한다.")
     @PostMapping("/members")
-    public ResponseEntity saveMember(@RequestBody Member member) {
+    public ResponseEntity saveMember(@ApiParam(value = "회원 도메인") @RequestBody Member member) {
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .resultCode("0000")
@@ -74,8 +79,10 @@ public class MemberController {
     /**
      * 회원 수정
      */
+    @ApiOperation(value = "회원 수정", notes = "회원을 수정한다.")
     @PutMapping("/members/{memberId}")
-    public ResponseEntity editMember(@PathVariable Long memberId, @RequestBody Member member) {
+    public ResponseEntity editMember(@ApiParam(value = "회원 ID") @PathVariable Long memberId,
+                                     @ApiParam(value = "회원 도메인") @RequestBody Member member) {
         Member editMember = null;
 
         try {
@@ -94,8 +101,9 @@ public class MemberController {
     /**
      * 회원 삭제
      */
+    @ApiOperation(value = "회원 삭제", notes = "회원을 삭제한다.")
     @DeleteMapping("/members/{memberId}")
-    public ResponseEntity deleteMember(@PathVariable Long memberId) {
+    public ResponseEntity deleteMember(@ApiParam(value = "회원 ID") @PathVariable Long memberId) {
         boolean isSuccess = true;
         try {
             memberService.deleteMember(memberId);
