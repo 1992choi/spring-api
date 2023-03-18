@@ -19,6 +19,7 @@ public class ExceptHandler {
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .resultCode("9999")
+                        .resultMessage("오류가 발생하였습니다.")
                         .build()
         );
     }

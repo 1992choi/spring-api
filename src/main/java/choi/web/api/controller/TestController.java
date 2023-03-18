@@ -15,6 +15,7 @@ public class TestController {
         return ResponseEntity.ok(
                 ResponseData.builder()
                         .resultCode("0000")
+                        .resultCode("성공하였습니다.")
                         .build()
         );
     }
