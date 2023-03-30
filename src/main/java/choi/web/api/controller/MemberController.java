@@ -57,7 +57,7 @@ public class MemberController {
                                 .build())
                         .add(linkTo(methodOn(MemberController.class).findMembers()).withRel("list").withType("GET"))
                         .add(linkTo(methodOn(MemberController.class).findMember(memberId)).withSelfRel().withType("GET"))
-                        .add(linkTo(methodOn(MemberController.class).editMember(memberId, new Member())).withRel("update").withType("PUT"))
+                        .add(linkTo(methodOn(MemberController.class).editMember(memberId, Member.builder().build())).withRel("update").withType("PUT"))
                         .add(linkTo(methodOn(MemberController.class).deleteMember(memberId)).withRel("delete").withType("DELETE"))
         );
     }
