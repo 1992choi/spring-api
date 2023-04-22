@@ -1,7 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.1'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
 
     // REST Docs : Asciidoctor 플러그인 적용
     id "org.asciidoctor.jvm.convert" version "3.3.2"
@@ -9,7 +9,7 @@ plugins {
 
 group = 'choi.web'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '17'
 
 configurations {
     asciidoctorExtensions // REST Docs : dependencies 에서 적용한 것 추가
