@@ -53,7 +53,7 @@ class MemberControllerTest {
     @Test
     @Description("회원 상세 조회")
     public void findOne() throws Exception {
-        this.mockMvc.perform(get("/members/5").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/members/4").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("find-member",
                         responseFields(
