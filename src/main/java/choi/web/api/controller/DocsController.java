@@ -8,7 +8,7 @@ public class DocsController {
 
     @GetMapping("/docs/member")
     public String memberDocs() {
-        return "/docs/index.html";
+        return "docs/index.html";
     }
 
 }
