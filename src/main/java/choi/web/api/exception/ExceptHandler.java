@@ -17,24 +17,14 @@ public class ExceptHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<ResponseData> noHandlerFoundException(NoHandlerFoundException e) {
         log.info("ExceptHandler.noHandlerFoundException = {}", e.getMessage());
-        return ResponseEntity.ok(
-                ResponseData.builder()
-                        .resultCode("9999")
-                        .resultMessage("URL을 확인해주세요.")
-                        .build()
-        );
+        return ResponseEntity.ok(new ResponseData("9999", "URL을 확인해주세요."));
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<ResponseData> commonException(Exception e) {
         log.info("ExceptHandler.commonException = {}", e.getMessage());
-        return ResponseEntity.ok(
-                ResponseData.builder()
-                        .resultCode("9999")
-                        .resultMessage("오류가 발생하였습니다.")
-                        .build()
-        );
+        return ResponseEntity.ok(new ResponseData("9999", "오류가 발생하였습니다."));
     }
 
 }

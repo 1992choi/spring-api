@@ -1,18 +1,12 @@
 package choi.web.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Getter;
 
-@Builder
-@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL) // Null 값인 필드 제외
-public class ResponseData {
+public record ResponseData(String resultCode, String resultMessage, Object resultData) {
 
-    String resultCode;
-
-    String resultMessage;
-
-    Object resultData;
+    public ResponseData(String resultCode, String resultMessage) {
+        this(resultCode, resultMessage, null);
+    }
 
 }

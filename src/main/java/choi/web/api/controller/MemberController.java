@@ -32,10 +32,7 @@ public class MemberController {
 
         return ResponseEntity.ok().body(
                 EntityModel
-                        .of(ResponseData.builder()
-                                .resultCode("0000")
-                                .resultData(members)
-                                .build())
+                        .of(new ResponseData("0000", "성공하였습니다.", members))
                         .add(linkTo(methodOn(MemberController.class).findMembers()).withSelfRel())
         );
     }
@@ -47,10 +44,7 @@ public class MemberController {
     public ResponseEntity<EntityModel<ResponseData>> findMember(@PathVariable Long memberId) {
         return ResponseEntity.ok().body(
                 EntityModel
-                        .of(ResponseData.builder()
-                                .resultCode("0000")
-                                .resultData(memberService.findMember(memberId))
-                                .build())
+                        .of(new ResponseData("0000", "성공하였습니다.", memberService.findMember(memberId)))
                         .add(linkTo(methodOn(MemberController.class).findMembers()).withRel("list").withType("GET"))
                         .add(linkTo(methodOn(MemberController.class).findMember(memberId)).withSelfRel().withType("GET"))
                         .add(linkTo(methodOn(MemberController.class).editMember(memberId, Member.builder().build())).withRel("update").withType("PUT"))
@@ -63,12 +57,7 @@ public class MemberController {
      */
     @PostMapping("/members")
     public ResponseEntity saveMember(@RequestBody Member member) {
-        return ResponseEntity.ok(
-                ResponseData.builder()
-                        .resultCode("0000")
-                        .resultData(memberService.saveMember(member))
-                        .build()
-        );
+        return ResponseEntity.ok(new ResponseData("0000", "성공하였습니다.", memberService.saveMember(member)));
     }
 
     /**
@@ -84,10 +73,7 @@ public class MemberController {
         }
 
         return ResponseEntity.ok(
-                ResponseData.builder()
-                        .resultCode(editMember == null ? "9999" : "0000")
-                        .resultData(editMember)
-                        .build()
+                new ResponseData(editMember == null ? "9999" : "0000", editMember == null ? "실패하였습니다." : "성공하였습니다.", memberService.saveMember(member))
         );
     }
 
@@ -103,11 +89,7 @@ public class MemberController {
             isSuccess = false;
         }
 
-        return ResponseEntity.ok(
-                ResponseData.builder()
-                        .resultCode(isSuccess ? "0000" : "9999")
-                        .build()
-        );
+        return ResponseEntity.ok(new ResponseData(isSuccess ? "0000" : "9999", isSuccess ? "성공하였습니다." : "실패하였습니다"));
     }
 
 }

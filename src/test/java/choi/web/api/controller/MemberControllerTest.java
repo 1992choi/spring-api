@@ -35,6 +35,7 @@ class MemberControllerTest {
                 .andDo(document("find-members",
                         responseFields(
                                 fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 코드"),
+                                fieldWithPath("resultMessage").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("resultData").type(JsonFieldType.ARRAY).description("응답 데이터"),
                                 fieldWithPath("resultData.[].memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
                                 fieldWithPath("resultData.[].name").type(JsonFieldType.STRING).description("회원 이름"),
@@ -58,6 +59,7 @@ class MemberControllerTest {
                 .andDo(document("find-member",
                         responseFields(
                                 fieldWithPath("resultCode").type(JsonFieldType.STRING).description("응답 코드"),
+                                fieldWithPath("resultMessage").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("resultData").type(JsonFieldType.OBJECT).description("응답 데이터"),
                                 fieldWithPath("resultData.memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
                                 fieldWithPath("resultData.name").type(JsonFieldType.STRING).description("회원 이름"),
