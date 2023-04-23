@@ -1,7 +1,7 @@
 package choi.web.api.service;
 
 import choi.web.api.domain.Member;
-import choi.web.api.repository.MemberJpaRepository;
+import choi.web.api.repository.jpa.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,20 +13,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 회원 전체 조회
      */
     public List<Member> findAllMember() {
-        return memberJpaRepository.findAll();
+        return memberRepository.findAll();
     }
 
     /**
      * 회원 조회
      */
     public Member findMember(Long memberId) {
-        return memberJpaRepository.findByMemberId(memberId);
+        return memberRepository.findByMemberId(memberId);
     }
 
     /**
@@ -34,7 +34,7 @@ public class MemberService {
      */
     @Transactional
     public Member saveMember(Member member) {
-        return memberJpaRepository.save(member);
+        return memberRepository.save(member);
     }
 
     /**
@@ -42,7 +42,7 @@ public class MemberService {
      */
     @Transactional
     public Member editMember(Long memberId, Member member) {
-        Member findMember = memberJpaRepository.findByMemberId(memberId);
+        Member findMember = memberRepository.findByMemberId(memberId);
         if (member.getName() != null) {
             findMember.setName(member.getName());
         }
@@ -50,7 +50,7 @@ public class MemberService {
             findMember.setBirth(member.getBirth());
         }
 
-        // return memberJpaRepository.save(findMember); // Dirty Checking
+        // return memberRepository.save(findMember); // Dirty Checking
         return findMember;
     }
 
@@ -59,7 +59,7 @@ public class MemberService {
      */
     @Transactional
     public void deleteMember(Long memberId) {
-        memberJpaRepository.deleteById(memberId);
+        memberRepository.deleteById(memberId);
     }
 
 }
