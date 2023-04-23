@@ -6,13 +6,22 @@ spring:
       add-mappings: false
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
+    driver-class-name: org.h2.Driver
+    jdbc-url: jdbc:h2:tcp://localhost/~/test
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+
+  datasource-sub:
+    driver-class-name: oracle.jdbc.OracleDriver
+    jdbc-url: jdbc:oracle:thin:@localhost:1521/xe
+    username: choi
+    password: 1234
 
   jpa:
     hibernate.hbm2ddl.auto: update
     properties:
       hibernate:
         format_sql: true
+
+mybatis:
+  mapper-locations: mappers/*.xml
