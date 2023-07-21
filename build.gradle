@@ -49,6 +49,9 @@ dependencies {
 
     // HATEOAS
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+
+    // Bucket4j
+    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'
 }
 
 ext {
