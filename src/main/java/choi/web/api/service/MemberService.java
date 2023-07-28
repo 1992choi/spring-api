@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,10 +43,12 @@ public class MemberService {
      */
     @Transactional
     public Member editMember(Long memberId, Member member) throws Exception {
-        Member findMember = memberRepository.findByMemberId(memberId);
-        if (findMember == null) {
-            throw new Exception("존재하지 않는 회원입니다.");
-        }
+        // Optional로 변경
+//        Member findMember = memberRepository.findByMemberId(memberId);
+//        if (findMember == null) {
+//            throw new Exception("존재하지 않는 회원입니다.");
+//        }
+        Member findMember = Optional.ofNullable(memberRepository.findByMemberId(memberId)).orElseThrow(() -> new Exception("존재하지 않는 회원입니다."));
 
         if (member.getName() != null) {
             findMember.setName(member.getName());
