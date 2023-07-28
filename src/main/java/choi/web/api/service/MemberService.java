@@ -41,8 +41,12 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public Member editMember(Long memberId, Member member) {
+    public Member editMember(Long memberId, Member member) throws Exception {
         Member findMember = memberRepository.findByMemberId(memberId);
+        if (findMember == null) {
+            throw new Exception("존재하지 않는 회원입니다.");
+        }
+
         if (member.getName() != null) {
             findMember.setName(member.getName());
         }

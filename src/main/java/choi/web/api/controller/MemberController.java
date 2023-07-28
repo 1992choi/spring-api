@@ -65,16 +65,15 @@ public class MemberController {
      */
     @PutMapping("/members/{memberId}")
     public ResponseEntity editMember(@PathVariable Long memberId, @RequestBody Member member) {
-        Member editMember = null;
-
         try {
-            editMember = memberService.editMember(memberId, member);
+            return ResponseEntity.ok(
+                    new ResponseData("0000", "수정을 완료했습니다.", memberService.editMember(memberId, member))
+            );
         } catch (Exception e) {
+            return ResponseEntity.ok(
+                    new ResponseData("9999", e.getMessage())
+            );
         }
-
-        return ResponseEntity.ok(
-                new ResponseData(editMember == null ? "9999" : "0000", editMember == null ? "실패하였습니다." : "성공하였습니다.", memberService.saveMember(member))
-        );
     }
 
     /**
