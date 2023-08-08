@@ -52,6 +52,9 @@ dependencies {
 
     // Bucket4j
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'
+
+    // Telegram
+    implementation 'org.telegram:telegrambots:6.1.0'
 }
 
 ext {
