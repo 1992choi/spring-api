@@ -42,4 +42,10 @@ public class TransactionalController {
         return new ResponseData("0000", "성공하였습니다.");
     }
 
+    @GetMapping("/transaction/case-6")
+    public ResponseData case6() throws Exception {
+        transactionService.case6();
+        return new ResponseData("0000", "성공하였습니다.");
+    }
+
 }

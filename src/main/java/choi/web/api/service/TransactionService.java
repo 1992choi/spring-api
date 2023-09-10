@@ -97,7 +97,7 @@ public class TransactionService {
                             .build()
             );
 
-            case4InnerMethod();
+            this.case4InnerMethod();
         } catch (Exception e) {
             throw new Exception();
         }
@@ -105,11 +105,17 @@ public class TransactionService {
 
     private void case4InnerMethod() throws Exception {
         try {
+            memberRepository.save(
+                    Member.builder()
+                            .name("트랜잭션-2")
+                            .build()
+            );
+
             int num = 1 / 0;
 
             memberRepository.save(
                     Member.builder()
-                            .name("트랜잭션-2")
+                            .name("트랜잭션-3")
                             .build()
             );
         } catch (Exception e) {
@@ -129,15 +135,62 @@ public class TransactionService {
                         .build()
         );
 
-        case5InnerMethod();
+        this.case5InnerMethod();
     }
 
     private void case5InnerMethod() {
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-2")
+                        .build()
+        );
+
         int num = 1 / 0;
 
         memberRepository.save(
                 Member.builder()
+                        .name("트랜잭션-3")
+                        .build()
+        );
+    }
+
+    /**
+     * 실행결과
+     * - 모두 롤백되어 저장되는 회원 없음.
+     */
+    public void case6() {
+        this.case6InnerMethod1();
+        this.case6InnerMethod2();
+    }
+
+    @Transactional
+    public void case6InnerMethod1() {
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-1")
+                        .build()
+        );
+
+        memberRepository.save(
+                Member.builder()
                         .name("트랜잭션-2")
+                        .build()
+        );
+    }
+
+    @Transactional
+    public void case6InnerMethod2() {
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-3")
+                        .build()
+        );
+
+        int num = 1 / 0;
+
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-4")
                         .build()
         );
     }
