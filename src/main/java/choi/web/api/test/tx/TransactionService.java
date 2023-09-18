@@ -1,4 +1,4 @@
-package choi.web.api.service;
+package choi.web.api.test.tx;
 
 import choi.web.api.domain.Member;
 import choi.web.api.repository.jpa.MemberRepository;
