@@ -1,10 +1,8 @@
-package choi.web.api.test;
+package choi.web.api.test.weather;
 
-import choi.web.api.domain.ResponseData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,21 +22,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class TestController {
-
-    private final OrderServiceImpl orderService;
-
-    @GetMapping("/test/exception")
-    public ResponseEntity<ResponseData> testException() {
-        int i = 10 / 0;
-
-        return ResponseEntity.ok(new ResponseData("0000", "성공하였습니다."));
-    }
-
-    @GetMapping("/test/interface")
-    public double testInterface() {
-        return orderService.order(2000);
-    }
+public class WeatherController {
 
     // TODO: 2023/08/08. 코드 리팩토링
     @GetMapping("/test/weather")

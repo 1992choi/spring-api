@@ -1,4 +1,4 @@
-package choi.web.api.test;
+package choi.web.api.test.loosecoupling;
 
 import lombok.extern.slf4j.Slf4j;
 

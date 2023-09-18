@@ -1,9 +1,8 @@
 package choi.web.api.config;
 
 import choi.web.api.interceptor.TrafficInterceptor;
-import choi.web.api.test.DiscountPolicy;
-import choi.web.api.test.FixDiscountPolicy;
-import choi.web.api.test.RateDiscountPolicy;
+import choi.web.api.test.loosecoupling.DiscountPolicy;
+import choi.web.api.test.loosecoupling.RateDiscountPolicy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
