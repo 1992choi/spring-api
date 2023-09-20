@@ -195,4 +195,49 @@ public class TransactionService {
         );
     }
 
+    /**
+     * 실행결과
+     * - 모두 롤백되어 저장되는 회원 없음.
+     */
+    @Transactional
+    public void case7() {
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-1")
+                        .build()
+        );
+
+        String str = null;
+        str.substring(0);
+
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-2")
+                        .build()
+        );
+    }
+
+    /**
+     * 실행결과
+     * - '트랜잭션-1'만 생성.
+     *   (NullPointerException는 Unchecked Exception이지만 noRollbackFor 옵션으로 인해 Rollback 무시)
+     */
+    @Transactional(noRollbackFor = NullPointerException.class)
+    public void case8() {
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-1")
+                        .build()
+        );
+
+        String str = null;
+        str.substring(0);
+
+        memberRepository.save(
+                Member.builder()
+                        .name("트랜잭션-2")
+                        .build()
+        );
+    }
+
 }

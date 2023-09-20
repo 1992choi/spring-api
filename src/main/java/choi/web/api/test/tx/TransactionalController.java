@@ -47,4 +47,16 @@ public class TransactionalController {
         return new ResponseData("0000", "성공하였습니다.");
     }
 
+    @GetMapping("/test/tx/case-7")
+    public ResponseData case7() throws Exception {
+        transactionService.case7();
+        return new ResponseData("0000", "성공하였습니다.");
+    }
+
+    @GetMapping("/test/tx/case-8")
+    public ResponseData case8() throws Exception {
+        transactionService.case8();
+        return new ResponseData("0000", "성공하였습니다.");
+    }
+
 }
