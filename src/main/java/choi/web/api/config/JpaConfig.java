@@ -61,7 +61,8 @@ public class JpaConfig {
         properties.put("hibernate.hbm2ddl.auto", "create");
         properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.put("hibernate.format_sql", true);
-        properties.put("hibernate.show_sql", false);
+        properties.put("hibernate.show_sql", true);
+        properties.put("hibernate.use_sql_comments", true);
         properties.put("hibernate.globally_quoted_identifiers", true);
         factory.setJpaPropertyMap(properties);
         factory.afterPropertiesSet();
