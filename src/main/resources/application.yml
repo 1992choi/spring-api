@@ -16,12 +16,3 @@ spring:
     jdbc-url: jdbc:oracle:thin:@localhost:1521/xe
     username: choi
     password: 1234
-
-  jpa:
-    hibernate.hbm2ddl.auto: update
-    properties:
-      hibernate:
-        format_sql: true
-
-mybatis:
-  mapper-locations: mappers/*.xml
