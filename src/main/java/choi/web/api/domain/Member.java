@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Member {
 
     @Id
