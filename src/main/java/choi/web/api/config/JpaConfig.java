@@ -64,6 +64,7 @@ public class JpaConfig {
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.use_sql_comments", true);
         properties.put("hibernate.globally_quoted_identifiers", true);
+        properties.put("hibernate.physical_naming_strategy", "choi.web.api.config.JpaNamingStrategyConfig");
         factory.setJpaPropertyMap(properties);
         factory.afterPropertiesSet();
 
