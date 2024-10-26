@@ -6,13 +6,13 @@ spring:
       add-mappings: false
 
   datasource:
-    driver-class-name: org.h2.Driver
-    jdbc-url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/api
+    username: root
+    password: 1234
 
   datasource-sub:
-    driver-class-name: oracle.jdbc.OracleDriver
-    jdbc-url: jdbc:oracle:thin:@localhost:1521/xe
-    username: choi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/apisub
+    username: root
     password: 1234
