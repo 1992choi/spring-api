@@ -12,21 +12,21 @@ public class BuilderController {
         // 중복되는 필드가 많을 경우 비효율적.
 //        if ("id".equals(loginType)) {
 //            return Account.builder()
+//                    .loginType(loginType)
 //                    .id("abc")
 //                    // many field
 //                    .build();
 //        } else {
 //            return Account.builder()
+//                    .loginType(loginType)
 //                    .email("abc@google.com")
 //                    // many field
 //                    .build();
 //        }
 
         // Builder를 재사용하여 중복코드 제거
-        Account.AccountBuilder builder = Account.builder();
-
-        // 공통 필드 설정
-        // builder.someField("value1");
+        Account.AccountBuilder builder = Account.builder()
+                .loginType(loginType);
 
         // 조건에 따라 특정 필드만 설정
         if ("id".equals(loginType)) {
