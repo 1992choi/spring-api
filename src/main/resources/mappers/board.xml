@@ -11,4 +11,9 @@
         FROM TB_BOARD
     </select>
 
+    <insert id="saveBoard" parameterType="choi.web.api.domain.Board" useGeneratedKeys="true" keyProperty="boardId">
+        INSERT INTO TB_BOARD (TITLE, CONTENT, REG_ID)
+        VALUES (#{title}, #{content}, #{regId})
+    </insert>
+
 </mapper>

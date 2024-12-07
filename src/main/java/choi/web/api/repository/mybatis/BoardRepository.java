@@ -10,4 +10,6 @@ public interface BoardRepository {
 
     List<Board> findAll();
 
+    void saveBoard(Board board);
+
 }
