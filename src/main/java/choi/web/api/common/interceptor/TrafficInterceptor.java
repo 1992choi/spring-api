@@ -57,7 +57,7 @@ public class TrafficInterceptor implements HandlerInterceptor {
     private Bucket newBucket(String apiKey) {
         return Bucket4j.builder()
                 // 버킷의 총 크기 = 5, 한 번에 충전되는 토큰 수  = 1, 10초마다 충전
-                .addLimit(Bandwidth.classic(5, Refill.intervally(1, Duration.ofSeconds(10))))
+                .addLimit(Bandwidth.classic(20, Refill.intervally(1, Duration.ofSeconds(10))))
                 .build();
     }
 }
