@@ -16,3 +16,25 @@ spring:
     jdbc-url: jdbc:mysql://localhost:3306/apisub
     username: root
     password: 1234
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      circuitbreaker: # Circuit Breaker 이름
+        slidingWindowSize: 5  # 최근 10개의 호출 기준으로 통계를 계산
+        failureRateThreshold: 50  # 실패율이 50%를 초과하면 열림(Open) 상태로 전환
+        waitDurationInOpenState: 10s  # Circuit Breaker가 Open 상태에서 유지되는 시간
+        permittedNumberOfCallsInHalfOpenState: 3  # Half-Open 상태에서 허용되는 호출 수
+        slowCallRateThreshold: 50  # 느린 호출 비율 기준
+        slowCallDurationThreshold: 2s  # 느린 호출로 간주하는 임계값
+        record-exceptions: # Circuit Breaker에 기록할 익셉션
+          - choi.web.api.learn.resilience.RetryableException
+        ignore-exceptions: # 무시할 익셉션 (Circuit Breaker 동작 안 함)
+          - choi.web.api.learn.resilience.RetryableIgnoreException
+  retry:
+    instances:
+      circuitbreaker:
+        retry-exceptions:
+          - choi.web.api.learn.resilience.RetryableException
+        ignore-exceptions:
+          - choi.web.api.learn.resilience.RetryableIgnoreException
