@@ -11,6 +11,16 @@
         FROM TB_BOARD
     </select>
 
+    <select id="findById" parameterType="long" resultType="choi.web.api.common.domain.Board">
+        SELECT BOARD_ID,
+               TITLE,
+               CONTENT,
+               REG_ID,
+               REG_DATE
+        FROM TB_BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
     <insert id="saveBoard" parameterType="choi.web.api.common.domain.Board" useGeneratedKeys="true" keyProperty="boardId">
         INSERT INTO TB_BOARD (TITLE, CONTENT, REG_ID)
         VALUES (#{title}, #{content}, #{regId})

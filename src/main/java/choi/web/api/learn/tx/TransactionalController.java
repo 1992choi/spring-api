@@ -59,4 +59,10 @@ public class TransactionalController {
         return new ResponseData("0000", "성공하였습니다.");
     }
 
+    @GetMapping("/tx/repeatable-test")
+    public ResponseData repeatableTest() {
+        transactionService.repeatableTest();
+        return new ResponseData("0000", "성공하였습니다.");
+    }
+
 }
