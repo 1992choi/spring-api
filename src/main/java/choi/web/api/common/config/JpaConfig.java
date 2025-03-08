@@ -48,28 +48,6 @@ public class JpaConfig {
     @Bean(name = "entityManagerFactory")
     @Primary
     public EntityManagerFactory entityManagerFactory(@Qualifier("dataSource") DataSource dataSource) {
-//        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-//        factory.setPackagesToScan("choi.web.api.domain");
-//        factory.setDataSource(dataSource);
-//        factory.setPersistenceUnitName("H2");
-//
-//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        vendorAdapter.setShowSql(true);
-//        factory.setJpaVendorAdapter(vendorAdapter);
-//
-//        Map<String, Object> properties = new HashMap<>();
-//        properties.put("hibernate.hbm2ddl.auto", "none");
-//        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-//        properties.put("hibernate.format_sql", true);
-//        properties.put("hibernate.show_sql", true);
-//        properties.put("hibernate.use_sql_comments", true);
-//        properties.put("hibernate.globally_quoted_identifiers", true);
-//        properties.put("hibernate.physical_naming_strategy", "choi.web.api.config.JpaNamingStrategyConfig");
-//        factory.setJpaPropertyMap(properties);
-//        factory.afterPropertiesSet();
-//
-//        return factory.getObject();
-
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setPackagesToScan("choi.web.api.common.domain");
         factory.setDataSource(dataSource);
@@ -80,7 +58,7 @@ public class JpaConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "create"); // 필요에 따라 "none", "create", "update"로 설정
+        properties.put("hibernate.hbm2ddl.auto", "none"); // 필요에 따라 "none", "create", "update"로 설정
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         properties.put("hibernate.format_sql", true);
         properties.put("hibernate.show_sql", true);

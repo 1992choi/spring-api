@@ -17,3 +17,7 @@
 - 데이터베이스 생성
   - CREATE DATABASE api;
   - CREATE DATABASE apisub;
+
+### Redis
+- 컨테이너 생성 및 실행
+  - docker run --name my-redis -d -p 6379:6379 redis
