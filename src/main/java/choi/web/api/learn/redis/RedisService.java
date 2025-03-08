@@ -3,6 +3,10 @@ package choi.web.api.learn.redis;
 import choi.web.api.common.domain.Dummy;
 import choi.web.api.common.repository.jpa.DummyRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RedisService {
 
+    private static final Logger log = LoggerFactory.getLogger(RedisService.class);
     private final DummyRepository dummyRepository;
+    private final CacheManager cacheManager;
 
     @Transactional
     public void init() {
@@ -40,12 +46,21 @@ public class RedisService {
         dummy.setData3("AAA_NEW");
     }
 
-    @Cacheable(value = "dummy", key = "#dummyId")
+//    @CacheEvict(value = {"dummy", "dummyList"}, allEntries = true)
+    @CacheEvict(value = "dummy", allEntries = true) // dummy만 갱신되는지 확인
+    @Transactional
+    public void changeValueWithEvict() {
+        Dummy dummy = dummyRepository.findById(1L).get();
+        dummy.setData2("AA_NEW");
+        dummy.setData3("AAA_NEW");
+    }
+
+    @Cacheable(value = "dummy", key = "#dummyId", unless = "#result == null")
     public Dummy getDummy(Long dummyId) {
         return dummyRepository.findById(dummyId).orElse(null);
     }
 
-    @Cacheable(value = "dummyList", key = "#data1", unless="#result == null")
+    @Cacheable(value = "dummyList", key = "#data1", unless = "#result == null")
     public List<Dummy> getDummyList(String data1) {
         return dummyRepository.findAllByData1(data1);
     }

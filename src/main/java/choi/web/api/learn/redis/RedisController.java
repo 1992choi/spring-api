@@ -16,17 +16,23 @@ public class RedisController {
 
     private final RedisService redisService;
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/redis/init")
     public void init() {
         log.info("call init()");
         redisService.init();
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/redis")
     public void changeValue() {
         redisService.changeValue();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/redis-evict")
+    public void changeValueWithEvict() {
+        redisService.changeValueWithEvict();
     }
 
     @ResponseStatus(HttpStatus.OK)

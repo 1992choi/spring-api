@@ -21,3 +21,9 @@
 ### Redis
 - 컨테이너 생성 및 실행
   - docker run --name my-redis -d -p 6379:6379 redis
+- 컨테이너 접속
+  - docker exec -it my-redis redis-cli
+- 키 확인
+  - keys *
+- 모든 데이터 삭제
+  - FLUSHALL
