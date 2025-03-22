@@ -3,9 +3,6 @@ package choi.web.api.learn.redis;
 import choi.web.api.common.domain.Dummy;
 import choi.web.api.common.repository.jpa.DummyRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,9 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RedisService {
 
-    private static final Logger log = LoggerFactory.getLogger(RedisService.class);
     private final DummyRepository dummyRepository;
-    private final CacheManager cacheManager;
 
     @Transactional
     public void init() {
@@ -46,7 +41,7 @@ public class RedisService {
         dummy.setData3("AAA_NEW");
     }
 
-//    @CacheEvict(value = {"dummy", "dummyList"}, allEntries = true)
+    //    @CacheEvict(value = {"dummy", "dummyList"}, allEntries = true)
     @CacheEvict(value = "dummy", allEntries = true) // dummy만 갱신되는지 확인
     @Transactional
     public void changeValueWithEvict() {
