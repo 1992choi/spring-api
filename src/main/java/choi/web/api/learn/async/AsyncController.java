@@ -32,4 +32,16 @@ public class AsyncController {
         return String.valueOf(System.currentTimeMillis() - startTime);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/sync/exception")
+    public void syncException() {
+        asyncFacade.syncException();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/async/exception")
+    public void asyncException() {
+        asyncFacade.asyncException();
+    }
+
 }

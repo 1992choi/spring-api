@@ -25,4 +25,13 @@ public class AsyncService {
         }
     }
 
+    public void syncException() {
+        int num = 1 / 0;
+    }
+
+    @Async("CustomTaskExecutor")
+    public void asyncException() {
+        int num = 1 / 0;
+    }
+
 }

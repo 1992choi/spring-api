@@ -32,4 +32,21 @@ class AsyncControllerTest {
         log.info("Execution time = {}", response.getBody());
     }
 
+    @Test
+    void testSyncException() {
+        /*
+            예외 발생하면, 롤백
+         */
+        ResponseEntity<String> response = restTemplate.getForEntity("/sync/exception", String.class);
+    }
+
+    @Test
+    void testAsyncException() {
+        /*
+            예외 발생해도 롤백되지 않음. (@Async 어노테이션 특성)
+            - 비동기 작업은 별도의 스레드에서 실행되기 때문
+         */
+        ResponseEntity<String> response = restTemplate.getForEntity("/async/exception", String.class);
+    }
+
 }
