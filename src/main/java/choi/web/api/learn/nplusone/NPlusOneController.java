@@ -44,4 +44,34 @@ public class NPlusOneController {
         nPlusOneService.getEmployeesFetchedUsingJpaFetchJoinWithNPlusOneNotOccurs();
     }
 
+    /**
+     * QueryDSL - N+1 발생안함
+     * - team 필드에 실제로 접근하지 않아서 발생하지 않음.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/employees/querydsl/nplusone-not-occurs")
+    public void getEmployeesFetchedUsingQuerydslWithNPlusOneNotOccurs() {
+        nPlusOneService.getEmployeesFetchedUsingQuerydslWithNPlusOneNotOccurs();
+    }
+
+    /**
+     * QueryDSL - N+1 발생
+     * - team 필드에 접근해서 발생.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/employees/querydsl/nplusone-occurs")
+    public void getEmployeesFetchedUsingQuerydslWithNPlusOneOccurs() {
+        nPlusOneService.getEmployeesFetchedUsingQuerydslWithNPlusOneOccurs();
+    }
+
+    /**
+     * QueryDSL - N+1 발생
+     * - team 필드에 실제로 접근하였지만, fetch join으로 인해 발생하지 않음.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/employees/querydsl-fetch/nplusone-occurs")
+    public void getEmployeesFetchedUsingQuerydslFetchJoinWithNPlusOneOccurs() {
+        nPlusOneService.getEmployeesFetchedUsingQuerydslFetchJoinWithNPlusOneOccurs();
+    }
+
 }

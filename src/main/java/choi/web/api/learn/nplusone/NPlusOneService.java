@@ -64,4 +64,31 @@ public class NPlusOneService {
         return employees;
     }
 
+    @Transactional
+    public List<Employee> getEmployeesFetchedUsingQuerydslWithNPlusOneNotOccurs() {
+        return employeeRepository.findAllWithQuerydsl();
+    }
+
+    @Transactional
+    public List<Employee> getEmployeesFetchedUsingQuerydslWithNPlusOneOccurs() {
+        List<Employee> employees = employeeRepository.findAllWithQuerydsl();
+
+        for (Employee employee : employees) {
+            System.out.println(employee.getTeam().getName());
+        }
+
+        return employees;
+    }
+
+    @Transactional
+    public List<Employee> getEmployeesFetchedUsingQuerydslFetchJoinWithNPlusOneOccurs() {
+        List<Employee> employees = employeeRepository.findAllWithQuerydslFetchJoin();
+
+        for (Employee employee : employees) {
+            System.out.println(employee.getTeam().getName());
+        }
+
+        return employees;
+    }
+
 }

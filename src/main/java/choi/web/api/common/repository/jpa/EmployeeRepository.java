@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeRepositoryCustom {
 
     @EntityGraph(attributePaths = "team")
     @Query("SELECT e FROM Employee e")
