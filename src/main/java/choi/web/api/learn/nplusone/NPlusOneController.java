@@ -47,6 +47,7 @@ public class NPlusOneController {
     /**
      * QueryDSL - N+1 발생안함
      * - team 필드에 실제로 접근하지 않아서 발생하지 않음.
+     * - 만약 즉시로딩이라면 필드에 접근하지 않아도 조회하자마자 N+1발생
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/employees/querydsl/nplusone-not-occurs")
