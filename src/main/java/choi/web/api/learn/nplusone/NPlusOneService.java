@@ -91,4 +91,15 @@ public class NPlusOneService {
         return employees;
     }
 
+    @Transactional
+    public List<Employee> getEmployeesFetchedUsingQuerydslWhereTeamNameWithNPlusOneOccurs() {
+        List<Employee> employees = employeeRepository.findAllWithQuerydslWhereTeamName();
+
+        for (Employee employee : employees) {
+            System.out.println(employee.getTeam().getName());
+        }
+
+        return employees;
+    }
+
 }

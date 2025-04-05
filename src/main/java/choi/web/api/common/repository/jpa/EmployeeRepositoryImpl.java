@@ -32,4 +32,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Employee> findAllWithQuerydslWhereTeamName() {
+        return queryFactory
+                .selectFrom(employee)
+                .join(employee.team, team)
+                .where(team.name.eq("team_a"))
+                .fetch();
+    }
+
 }

@@ -65,13 +65,23 @@ public class NPlusOneController {
     }
 
     /**
-     * QueryDSL - N+1 발생
+     * QueryDSL - N+1 발생안함
      * - team 필드에 실제로 접근하였지만, fetch join으로 인해 발생하지 않음.
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/employees/querydsl-fetch/nplusone-occurs")
+    @GetMapping("/employees/querydsl-fetch/nplusone-not-occurs")
     public void getEmployeesFetchedUsingQuerydslFetchJoinWithNPlusOneOccurs() {
         nPlusOneService.getEmployeesFetchedUsingQuerydslFetchJoinWithNPlusOneOccurs();
+    }
+
+    /**
+     * QueryDSL - N+1 발생
+     * - 조건절에 team.name이 사용되어 join 발생된 상태로 쿼리가 나가지만, 그래도 N+1 발생.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/employees/querydsl-where-teamname/nplusone-occurs")
+    public void getEmployeesFetchedUsingQuerydslWhereTeamNameWithNPlusOneOccurs() {
+        nPlusOneService.getEmployeesFetchedUsingQuerydslWhereTeamNameWithNPlusOneOccurs();
     }
 
 }

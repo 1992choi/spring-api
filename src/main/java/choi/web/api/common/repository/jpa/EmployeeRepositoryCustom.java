@@ -10,4 +10,6 @@ public interface EmployeeRepositoryCustom {
 
     List<Employee> findAllWithQuerydslFetchJoin();
 
+    List<Employee> findAllWithQuerydslWhereTeamName();
+
 }
