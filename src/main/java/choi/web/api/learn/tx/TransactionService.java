@@ -260,6 +260,9 @@ public class TransactionService {
 
 
         - TODO. Isolation 속성 때문에 발생하는 것 같았지만, 아닌 것 같기도... mybatis 캐시 설정도 함께 찾아봐야할듯.
+          - Isolation와 별개로 mybatis 캐시에 대해서도 작성필요.
+            - mybatis 캐시에는 1차 캐시와 2차 캐시가 존재.
+              - 2차 캐시는 제어 가능하지만, 1차 캐시는 제어불가. 하지만 우회하는 방법이 존재. flushCache="true"
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRES_NEW)
     public void repeatableTest() {
