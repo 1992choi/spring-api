@@ -12,6 +12,8 @@ public interface BoardRepository {
 
     Board findById(Long boardId);
 
+    Board findByIdWithoutCache(Long boardId);
+
     void saveBoard(Board board);
 
 }
