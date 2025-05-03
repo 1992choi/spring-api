@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # main 브랜치에 push 시 실행
+      - main
 
 jobs:
   deploy:
@@ -13,28 +13,36 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Deploy via SSH
+      - name: Build JAR
+        run: ./gradlew build --no-daemon
+
+      - name: Rename JAR (고정 이름으로)
         run: |
-          ssh -t ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            # 애플리케이션 디렉토리로 이동
+          mkdir deploy
+          cp build/libs/*.jar deploy/spring-api.jar
+
+      - name: Upload JAR to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "deploy/spring-api.jar"
+          target: "/home/ubuntu/myapp"
+
+      - name: Restart App on EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
             cd ~/myapp
-
-            # 최신 코드로 업데이트
-            git pull origin main
-
-            # ops/docker 디렉토리로 이동
-            cd ops/docker
-
-            # 기존 Docker Compose 컨테이너 종료
             docker-compose down
-
-            # Docker Compose로 새로 빌드 및 실행
             docker-compose up -d --build
-          EOF
