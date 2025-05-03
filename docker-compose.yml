@@ -4,7 +4,7 @@ services:
   app-boot:
     container_name: app-boot
     build:
-      context: ../..  # 프로젝트 루트 디렉토리로 빌드 컨텍스트 설정
+      context: .
       dockerfile: ops/docker/Dockerfile  # Dockerfile 경로
     ports:
       - "8080:8080"
@@ -28,7 +28,7 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: api
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./ops/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
     networks:
