@@ -25,13 +25,18 @@ jobs:
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             # 애플리케이션 디렉토리로 이동
             cd ~/myapp
-          
+
+            # Git 리포지토리가 없다면 클론하여 가져오기
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/1992choi/spring-api.git .
+            fi
+
             # 최신 코드로 업데이트
             git pull origin main
-          
+
             # Docker Compose로 기존 컨테이너 종료
-            docker compose down
-          
+            docker-compose down
+
             # Docker Compose로 새로운 빌드 및 실행
-            docker compose up -d --build
+            docker-compose up -d --build
           EOF
