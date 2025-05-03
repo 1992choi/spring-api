@@ -54,6 +54,8 @@
 - 설치 확인
   - docker -v
   - docker-compose -v
+- 도커 정리
+  - docker system prune -a
 
 ### SSH 연결을 위한 키 준비
 - github 설정

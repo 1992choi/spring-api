@@ -5,7 +5,7 @@ services:
     container_name: app-boot
     build:
       context: .
-      dockerfile: ops/docker/Dockerfile  # Dockerfile 경로
+      dockerfile: ops/docker/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
