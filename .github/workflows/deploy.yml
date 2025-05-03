@@ -20,6 +20,10 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Build Docker image
+        run: |
+          docker build -t myapp .  # Dockerfile을 기준으로 이미지를 빌드합니다.
+
       - name: Deploy via SSH
         run: |
           ssh -t ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
