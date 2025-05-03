@@ -54,3 +54,15 @@
 - 설치 확인
   - docker -v
   - docker-compose -v
+
+### SSH 연결을 위한 키 준비
+- github 설정
+  - repo > Settings > Secrets and variables > Actions 로 이동
+  - Secrets 탭에서 'New repository secret' 버튼 클릭하여 아래 내용 하나씩 등록
+    - EC2_HOST
+      - EC2 퍼블릭 IP
+      - Ex. 43.201.xxx.xxx
+    - EC2_USER
+      - 보통은 ubuntu 
+    - EC2_KEY
+      - PEM 파일의 내용 전체
