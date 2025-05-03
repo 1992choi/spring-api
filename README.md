@@ -31,6 +31,8 @@
 <hr>
 
 ## 로컬 구성 (docker compose 사용)
+### build
+- bootJar 실행
 ### docker-compose
 - cd {docker-compose 경로}
 - docker-compose up --build

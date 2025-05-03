@@ -107,6 +107,16 @@ bootJar {
     archiveFileName = 'spring-api.jar'
 }
 
+// TODO. jar파일 경로 고려. (aws 배포 때문에 프로젝트 레벨로 옮겼는데 조치 필요)
+task moveJar(type: Copy) {
+    dependsOn bootJar
+    from 'build/libs'
+    into projectDir
+    include 'spring-api.jar'
+}
+
+bootJar.finalizedBy(moveJar)
+
 // TODO. Restdocs 활성화
 // REST Docs 관련 설정
 //asciidoctor {
