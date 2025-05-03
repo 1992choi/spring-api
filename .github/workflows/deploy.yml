@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main
+      - main  # main 브랜치에 push 시 실행
 
 jobs:
   deploy:
@@ -23,8 +23,15 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # 애플리케이션 디렉토리로 이동
             cd ~/myapp
+          
+            # 최신 코드로 업데이트
             git pull origin main
+          
+            # Docker Compose로 기존 컨테이너 종료
             docker compose down
+          
+            # Docker Compose로 새로운 빌드 및 실행
             docker compose up -d --build
           EOF
