@@ -17,7 +17,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          package: 'jdk'  # jdk를 설치하려면 package 파라미터 사용
+          distribution: 'temurin'  # JDK distribution을 지정합니다.
+          java-package: 'jdk'  # JDK 설치를 위한 패키지 지정
 
       - name: Build the project
         run: |
