@@ -103,6 +103,10 @@ test {
     enabled = false
 }
 
+bootJar {
+    archiveFileName = 'spring-api.jar'
+}
+
 // TODO. Restdocs 활성화
 // REST Docs 관련 설정
 //asciidoctor {

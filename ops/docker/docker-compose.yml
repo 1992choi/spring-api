@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app-boot:
+    container_name: app-boot
+    build:
+      context: ../..  # 프로젝트 루트 디렉토리로 빌드 컨텍스트 설정
+      dockerfile: ops/docker/Dockerfile  # Dockerfile 경로
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app-mysql
+      - app-redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://app-mysql:3306/api
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_REDIS_HOST: app-redis
+      SPRING_REDIS_PORT: 6379
+    networks:
+      - app-network
+    restart: always
+
+  app-mysql:
+    container_name: app-mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: api
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  app-redis:
+    container_name: app-redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

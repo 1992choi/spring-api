@@ -1,6 +1,6 @@
 # Spring-API
 
-## 환경셋팅
+## 로컬 구성
 ### mysql
 - 이미지 다운로드
   - docker pull mysql
@@ -27,3 +27,14 @@
   - keys *
 - 모든 데이터 삭제
   - FLUSHALL
+
+<hr>
+
+## aws 구성
+### aws 설정
+- 도커 설치
+
+### docker
+- docker-compose
+  - cd {docker-compose 경로}
+  - docker-compose up --build
