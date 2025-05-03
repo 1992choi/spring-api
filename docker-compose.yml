@@ -20,6 +20,8 @@ services:
     networks:
       - app-network
     restart: always
+    mem_limit: 256m  # 메모리 제한
+    cpus: 0.5  # CPU 사용 제한
 
   app-mysql:
     container_name: app-mysql
@@ -33,14 +35,18 @@ services:
       - "3306:3306"
     networks:
       - app-network
+    mem_limit: 256m  # 메모리 제한
+    cpus: 0.5  # CPU 사용 제한
 
   app-redis:
     container_name: app-redis
-    image: redis:latest
+    image: redis:alpine
     ports:
       - "6379:6379"
     networks:
       - app-network
+    mem_limit: 128m  # 메모리 제한
+    cpus: 0.5  # CPU 사용 제한
 
 networks:
   app-network:
