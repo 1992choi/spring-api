@@ -24,8 +24,7 @@ jobs:
 
       - name: Rename JAR (고정 이름으로)
         run: |
-          mkdir deploy
-          cp build/libs/*.jar deploy/spring-api.jar
+          cp build/libs/spring-api.jar spring-api.jar
 
       - name: Upload JAR to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -33,7 +32,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: "deploy/spring-api.jar"
+          source: "spring-api.jar"
           target: "/home/ubuntu/myapp"
 
       - name: Restart App on EC2
