@@ -2,7 +2,7 @@
 FROM eclipse-temurin:17-jdk AS base
 
 # 작업 디렉토리 설정
-WORKDIR /app
+WORKDIR /myapp
 
 # 빌드된 JAR 파일을 컨테이너에 복사
 COPY build/libs/spring-api.jar spring-api.jar
