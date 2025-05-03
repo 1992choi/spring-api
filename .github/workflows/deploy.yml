@@ -17,11 +17,16 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
+          package: 'jdk'  # jdk를 설치하려면 package 파라미터 사용
 
       - name: Build the project
         run: |
-          ./gradlew build  # Gradle 빌드 실행 (JAR 파일 생성)
+          ./gradlew build || { echo 'Gradle build failed'; exit 1; }
+        continue-on-error: false
+
+      - name: List build directory
+        run: |
+          ls -al build/libs  # build/libs 디렉토리 내의 파일을 출력해봅니다.
 
       - name: Setup SSH
         run: |
