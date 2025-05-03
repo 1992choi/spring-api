@@ -1,6 +1,6 @@
 # Spring-API
 
-## 로컬 구성
+## 로컬 구성 (개별구성)
 ### mysql
 - 이미지 다운로드
   - docker pull mysql
@@ -30,11 +30,27 @@
 
 <hr>
 
+## 로컬 구성 (docker compose 사용)
+### docker-compose
+- cd {docker-compose 경로}
+- docker-compose up --build
+
+<hr>
+
 ## aws 구성
 ### aws 설정
-- 도커 설치
-
-### docker
-- docker-compose
-  - cd {docker-compose 경로}
-  - docker-compose up --build
+- 서버접속
+  - 로컬의 pem 위치로 이동
+  - sudo ssh -i "XXX.pem" ubuntu@ec2-XXX-XXX-XXX-XXX.ap-northeast-2.compute.amazonaws.com
+- Docker 설치
+  - sudo apt install -y docker.io
+- Docker Compose 설치
+  - sudo apt install -y docker-compose
+- Docker 실행 및 부팅 시 자동 시작 설정
+  - sudo systemctl enable docker
+  - sudo systemctl start docker
+- 현재 사용자에게 Docker 권한 부여
+  - sudo usermod -aG docker $USER
+- 설치 확인
+  - docker -v
+  - docker-compose -v
