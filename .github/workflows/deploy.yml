@@ -5,6 +5,9 @@ name: Deploy to EC2
 #    branches:
 #      - main
 
+# 임시 비활성화 - 수동상태로 변경
+on: workflow_dispatch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
