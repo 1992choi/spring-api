@@ -68,6 +68,17 @@ services:
     networks:
       - app-network
 
+  app-kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: app-kafka-ui
+    ports:
+      - "8085:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: app-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: app-kafka:9092
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
