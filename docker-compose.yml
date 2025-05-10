@@ -17,6 +17,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: 1234
       SPRING_REDIS_HOST: app-redis
       SPRING_REDIS_PORT: 6379
+    volumes:
+      - ./logs:/app/.data/tomcat/logs
     networks:
       - app-network
     restart: always
