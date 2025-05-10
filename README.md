@@ -75,6 +75,16 @@
 
 
 
+### Endpoints
+- Kafka UI
+  - http://localhost:8085/
+
+
+
+<hr>
+
+
+
 ### TODO
 - RestDocs 활성화
 - 테스트코드 활성화
