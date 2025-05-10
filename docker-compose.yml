@@ -18,7 +18,7 @@ services:
       SPRING_REDIS_HOST: app-redis
       SPRING_REDIS_PORT: 6379
     volumes:
-      - ./logs:/app/.data/tomcat/logs
+      - ./.data/tomcat/logs:/app/.data/tomcat/logs
     networks:
       - app-network
     restart: always
@@ -78,6 +78,20 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: app-local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: app-kafka:9092
+    networks:
+      - app-network
+
+  app-filebeat:
+    image: 'docker.elastic.co/beats/filebeat:7.10.2'
+    container_name: filebeat
+    platform: linux/amd64
+    volumes:
+      - ./.data/tomcat/logs:/usr/share/filebeat/logs
+      - ./.data/filebeat/data:/usr/share/filebeat/data
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+    depends_on:
+      - app-zookeeper
+      - app-kafka
     networks:
       - app-network
 
