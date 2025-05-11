@@ -83,7 +83,7 @@ services:
 
   app-filebeat:
     image: 'docker.elastic.co/beats/filebeat:7.10.2'
-    container_name: filebeat
+    container_name: app-filebeat
     platform: linux/amd64
     volumes:
       - ./.data/tomcat/logs:/usr/share/filebeat/logs
@@ -92,6 +92,33 @@ services:
     depends_on:
       - app-zookeeper
       - app-kafka
+    networks:
+      - app-network
+
+  app-logstash:
+    image: 'docker.elastic.co/logstash/logstash:7.10.2'
+    container_name: app-logstash
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - app-zookeeper
+      - app-kafka
+      - app-elasticsearch
+    networks:
+      - app-network
+
+  app-elasticsearch:
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.10.2'
+    container_name: app-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - TZ=Asia/Seoul
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./.data/elasticsearch:/usr/share/elasticsearch/data
     networks:
       - app-network
 
