@@ -76,10 +76,14 @@
 
 
 ### Endpoints
+- Spring boot
+  - http://localhost:8080
 - Kafka UI
-  - http://localhost:8085/
-
-
+  - http://localhost:8085
+- Kibana
+  - http://localhost:5601
+    - menu > Management > Dev Tools
+    - `GET access-log-2025-05-11/_search`를 실행하면, access 로그 확인 가능
 
 <hr>
 
