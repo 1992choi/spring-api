@@ -83,7 +83,21 @@
 - Kibana
   - http://localhost:5601
     - menu > Management > Dev Tools
-    - `GET access-log-2025-05-11/_search`를 실행하면, access 로그 확인 가능
+    - access 로그 확인 쿼리 예시
+      - ```
+        -- 조회 건수 제한
+        GET access-log-2025-05-12/_search?size=50
+        
+        -- 필드를 이용한 키워드 검색(= request 필드의 값 대상으로 조회. [Ex. 요청이 /member로 들어온 것 조회])
+        GET access-log-2025-05-12/_search
+        {
+          "query": {
+            "match": {
+              "request": "/member"
+            }
+          }
+        }
+        ```
 
 <hr>
 
