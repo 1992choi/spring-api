@@ -117,6 +117,7 @@ services:
       - TZ=Asia/Seoul
     ports:
       - "9200:9200"
+      - "9300:9300"
     volumes:
       - ./.data/elasticsearch:/usr/share/elasticsearch/data
     networks:
