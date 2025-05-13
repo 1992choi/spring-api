@@ -53,8 +53,8 @@ public class MemberService {
         if (member.getName() != null) {
             findMember.setName(member.getName());
         }
-        if (member.getBirth() != null) {
-            findMember.setBirth(member.getBirth());
+        if (member.getAge() != null) {
+            findMember.setAge(member.getAge());
         }
 
         // return memberRepository.save(findMember); // Dirty Checking

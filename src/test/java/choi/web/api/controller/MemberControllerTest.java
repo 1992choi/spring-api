@@ -39,7 +39,7 @@ class MemberControllerTest {
                                 fieldWithPath("resultData").type(JsonFieldType.ARRAY).description("응답 데이터"),
                                 fieldWithPath("resultData.[].memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
                                 fieldWithPath("resultData.[].name").type(JsonFieldType.STRING).description("회원 이름"),
-                                fieldWithPath("resultData.[].birth").type(JsonFieldType.NUMBER).description("회원 생년월일"),
+                                fieldWithPath("resultData.[].age").type(JsonFieldType.NUMBER).description("회원 나이"),
                                 fieldWithPath("resultData.[]._links").type(JsonFieldType.OBJECT).description("회원상세 HATEOAS"),
                                 fieldWithPath("resultData.[]._links.detail").type(JsonFieldType.OBJECT).description("회원상세 HATEOAS 상세정보"),
                                 fieldWithPath("resultData.[]._links.detail.href").type(JsonFieldType.STRING).description("회원상세 HATEOAS 링크"),
@@ -63,7 +63,7 @@ class MemberControllerTest {
                                 fieldWithPath("resultData").type(JsonFieldType.OBJECT).description("응답 데이터"),
                                 fieldWithPath("resultData.memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
                                 fieldWithPath("resultData.name").type(JsonFieldType.STRING).description("회원 이름"),
-                                fieldWithPath("resultData.birth").type(JsonFieldType.NUMBER).description("회원 생년월일"),
+                                fieldWithPath("resultData.age").type(JsonFieldType.NUMBER).description("회원 나이"),
 
                                 fieldWithPath("_links").type(JsonFieldType.OBJECT).description("회원상세 HATEOAS"),
 

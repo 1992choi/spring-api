@@ -20,13 +20,13 @@ public class Member {
 
     private String name;
 
-    private Integer birth;
+    private Integer age;
 
     @Builder
-    private Member(Long memberId, String name, Integer birth) {
+    private Member(Long memberId, String name, Integer age) {
         this.memberId = memberId;
         this.name = name;
-        this.birth = birth;
+        this.age = age;
     }
 
 }

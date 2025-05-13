@@ -30,7 +30,7 @@ class ServiceUnitTest {
         Member member = Member.builder()
                 .memberId(fakeMemberId)
                 .name("CHOI")
-                .birth(19920731)
+                .age(30)
                 .build();
 
         // mocking

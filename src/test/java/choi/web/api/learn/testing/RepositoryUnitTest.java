@@ -20,7 +20,7 @@ class RepositoryUnitTest {
         // given
         Member member = Member.builder()
                 .name("CHOI")
-                .birth(19920731)
+                .age(30)
                 .build();
 
         Member savedMember = memberRepository.save(member);
