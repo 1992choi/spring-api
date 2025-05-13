@@ -111,10 +111,13 @@
 
 
 ### TODO
-- RestDocs 활성화
-- 테스트코드 활성화
-- GitHub Actions 활성화
-  - deploy.yml 일부 주석 상태
-  - 프리티어 스펙 이슈로 GitHub Actions 비활성화 
-    - Mysql 8.0을 사용할 경우 배포 후 실행 시, 바로 다운 됨.
-    - 버전을 5.7로 했을 때는 배포 후 실행 성공
+- 테스트 코드
+  - 테스트 코드 작성 및 활성화
+  - RestDocs 활성화
+- GitHub Actions
+  - 프리티어 스펙 이슈로 GitHub Actions 비활성화
+    - deploy.yml 일부 주석 상태
+    - 낮은 스펙으로 배포했을 때는 성공
+- 환경 분리
+  - application.yml / docker-compose.yml 분리
+- 데이터베이스 초기 데이터 생성
