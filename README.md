@@ -82,22 +82,29 @@
   - http://localhost:8085
 - Kibana
   - http://localhost:5601
-    - menu > Management > Dev Tools
-    - access 로그 확인 쿼리 예시
-      - ```
-        -- 조회 건수 제한
-        GET access-log-2025-05-12/_search?size=50
+    - Dev Tools 사용 방법
+      - menu > Management > Dev Tools
+      - access 로그 확인 쿼리 예시
+        - ```
+          -- 조회 건수 제한
+          GET access-log-2025-05-12/_search?size=50
         
-        -- 필드를 이용한 키워드 검색(= request 필드의 값 대상으로 조회. [Ex. 요청이 /member로 들어온 것 조회])
-        GET access-log-2025-05-12/_search
-        {
-          "query": {
-            "match": {
-              "request": "/member"
+          -- 필드를 이용한 키워드 검색(= request 필드의 값 대상으로 조회. [Ex. 요청이 /member로 들어온 것 조회])
+          GET access-log-2025-05-12/_search
+          {
+            "query": {
+              "match": {
+                "request": "/member"
+              }
             }
           }
-        }
-        ```
+          ```
+    - 시각화 데이터 확인      
+      - index pattern 생성
+        - index patterns > create index pattern
+          - index pattern name > access-log* 입력 후 생성
+          - time field > logged_at 선택 (시계열로 보여지기 위해 순서가 보장된 필드로 선택)
+      - menu > Discover 에서 시각화 데이터 확인 가능
 
 <hr>
 
