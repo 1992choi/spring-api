@@ -120,4 +120,3 @@
     - 낮은 스펙으로 배포했을 때는 성공
 - 환경 분리
   - application.yml / docker-compose.yml 분리
-- 데이터베이스 초기 데이터 생성
