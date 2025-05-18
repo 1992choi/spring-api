@@ -1,43 +1,13 @@
 # Spring-API
 ## 환경 구성
 ### 로컬
-- mysql
-  - 이미지 다운로드
-    - docker pull mysql
-  - 컨테이너 생성 및 실행
-    - docker run --name mysql -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql
-  - 컨테이너 관리
-    - docker stop mysql
-    - docker start mysql
-    - docker restart mysql
-  - 컨테이너 접속
-    - docker exec -it mysql bash
-  - mysql root 계정으로 접속
-    - mysql -u root -p
-  - 데이터베이스 생성
-    - CREATE DATABASE api;
-    - CREATE DATABASE apisub;
+- boot를 제외한 서비스 실행
+  - cd {docker-compose 경로}
+  - docker-compose -f docker-compose-local.yml down
+  - docker-compose -f docker-compose-local.yml up -d --build
+- boot 실행
+  - IntelliJ > 실행설정 > Active profiles에 `local` 입력
 
-- Redis
-  - 컨테이너 생성 및 실행
-    - docker run --name my-redis -d -p 6379:6379 redis
-  - 컨테이너 접속
-    - docker exec -it my-redis redis-cli
-  - 키 확인
-    - keys *
-  - 모든 데이터 삭제
-    - FLUSHALL
-
-- Kafka
-  - TBD
-
-- 서버기동 (with Docker Compose)
-  - build
-    - bootJar 실행
-  - Docker Compose
-    - cd {docker-compose 경로}
-    - docker-compose -f docker-compose-local.yml down
-    - docker-compose -f docker-compose-local.yml up -d --build
 
 ### aws
 - aws 구성
@@ -119,5 +89,3 @@
   - 프리티어 스펙 이슈로 GitHub Actions 비활성화
     - deploy.yml 일부 주석 상태
     - 낮은 스펙으로 배포했을 때는 성공
-- 환경 분리
-  - application.yml / docker-compose.yml 분리

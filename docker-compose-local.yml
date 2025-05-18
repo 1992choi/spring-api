@@ -1,29 +1,6 @@
 version: '3.8'
 
 services:
-  app-boot:
-    container_name: app-boot
-    build:
-      context: .
-      dockerfile: ops/docker/Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - app-mysql
-      - app-redis
-    environment:
-      SPRING_PROFILES_ACTIVE: local
-      SPRING_DATASOURCE_URL: jdbc:mysql://app-mysql:3306/api
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_REDIS_HOST: app-redis
-      SPRING_REDIS_PORT: 6379
-    volumes:
-      - ./.data/tomcat/logs:/app/.data/tomcat/logs
-    networks:
-      - app-network
-    restart: always
-
   app-mysql:
     container_name: app-mysql
     image: mysql:8.0
@@ -34,16 +11,12 @@ services:
       - ./ops/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
-    networks:
-      - app-network
 
   app-redis:
     container_name: app-redis
     image: redis:alpine
     ports:
       - "6379:6379"
-    networks:
-      - app-network
 
   app-zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
@@ -53,8 +26,6 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
-    networks:
-      - app-network
 
   app-kafka:
     image: confluentinc/cp-kafka:7.6.0
@@ -66,10 +37,8 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: app-zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://app-kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - app-network
 
   app-kafka-ui:
     image: provectuslabs/kafka-ui
@@ -78,9 +47,7 @@ services:
       - "8085:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: app-local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: app-kafka:9092
-    networks:
-      - app-network
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: localhost:9092
 
   app-filebeat:
     image: 'docker.elastic.co/beats/filebeat:7.10.2'
@@ -89,12 +56,10 @@ services:
     volumes:
       - ./.data/tomcat/logs:/usr/share/filebeat/logs
       - ./.data/filebeat/data:/usr/share/filebeat/data
-      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./filebeat-local.yml:/usr/share/filebeat/filebeat.yml
     depends_on:
       - app-zookeeper
       - app-kafka
-    networks:
-      - app-network
 
   app-logstash:
     image: 'docker.elastic.co/logstash/logstash:7.10.2'
@@ -102,13 +67,11 @@ services:
     ports:
       - "5044:5044"
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash-local.conf:/usr/share/logstash/pipeline/logstash.conf
     depends_on:
       - app-zookeeper
       - app-kafka
       - app-elasticsearch
-    networks:
-      - app-network
 
   app-elasticsearch:
     image: 'docker.elastic.co/elasticsearch/elasticsearch:7.10.2'
@@ -121,8 +84,6 @@ services:
       - "9300:9300"
     volumes:
       - ./.data/elasticsearch:/usr/share/elasticsearch/data
-    networks:
-      - app-network
 
   app-kibana:
     image: 'docker.elastic.co/kibana/kibana:7.10.2'
@@ -134,9 +95,3 @@ services:
       - "5601:5601"
     depends_on:
       - app-elasticsearch
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge

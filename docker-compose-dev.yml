@@ -89,7 +89,7 @@ services:
     volumes:
       - ./.data/tomcat/logs:/usr/share/filebeat/logs
       - ./.data/filebeat/data:/usr/share/filebeat/data
-      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./filebeat-dev.yml:/usr/share/filebeat/filebeat.yml
     depends_on:
       - app-zookeeper
       - app-kafka
@@ -102,7 +102,7 @@ services:
     ports:
       - "5044:5044"
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash-dev.conf:/usr/share/logstash/pipeline/logstash.conf
     depends_on:
       - app-zookeeper
       - app-kafka

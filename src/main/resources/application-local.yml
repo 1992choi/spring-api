@@ -1,6 +1,6 @@
 server:
   tomcat:
-    basedir: /app/.data/tomcat
+    basedir: ./data/tomcat
     accesslog:
       enabled: true
       directory: logs
@@ -20,26 +20,26 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://app-mysql:3306/api?allowPublicKeyRetrieval=true&useSSL=false
+    jdbc-url: jdbc:mysql://localhost:3306/api?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1234
 
   datasource-sub:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://app-mysql:3306/apisub?allowPublicKeyRetrieval=true&useSSL=false
+    jdbc-url: jdbc:mysql://localhost:3306/apisub?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1234
 
   data:
     redis:
-      host: app-redis
+      host: localhost
       port: 6379
     elasticsearch:
-      host: app-elasticsearch
+      host: localhost
       port: 9200
 
   kafka:
-    bootstrap-servers: app-kafka:9092
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: my-group
       auto-offset-reset: earliest
