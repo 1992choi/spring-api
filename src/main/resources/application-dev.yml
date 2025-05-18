@@ -1,0 +1,50 @@
+server:
+  tomcat:
+    basedir: /app/.data/tomcat
+    accesslog:
+      enabled: true
+      directory: logs
+      suffix: .log
+      prefix: access_log
+      pattern: "%h %l %u %t \"%r\" %s %b %D \"%{Referer}i\" \"%{User-Agent}i\""
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://app-mysql:3306/api?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1234
+
+  datasource-sub:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://app-mysql:3306/apisub?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1234
+
+  data:
+    redis:
+      host: app-redis
+      port: 6379
+    elasticsearch:
+      host: app-elasticsearch
+      port: 9200
+
+  kafka:
+    bootstrap-servers: app-kafka:9092
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
