@@ -5,7 +5,7 @@ filebeat.inputs:
       - /usr/share/filebeat/logs/*.log
 
 output.kafka:
-  hosts: ["localhost:9092"]
+  hosts: ["app-kafka:9092"]
   topic: "access-log"
   partition.round_robin:
     reachable_only: true

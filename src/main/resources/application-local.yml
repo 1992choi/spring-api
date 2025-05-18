@@ -1,6 +1,6 @@
 server:
   tomcat:
-    basedir: ./data/tomcat
+    basedir: ./.data/tomcat
     accesslog:
       enabled: true
       directory: logs
@@ -39,7 +39,7 @@ spring:
       port: 9200
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9093
     consumer:
       group-id: my-group
       auto-offset-reset: earliest

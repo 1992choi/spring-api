@@ -11,12 +11,16 @@ services:
       - ./ops/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    networks:
+      - app-network
 
   app-redis:
     container_name: app-redis
     image: redis:alpine
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
   app-zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
@@ -26,6 +30,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    networks:
+      - app-network
 
   app-kafka:
     image: confluentinc/cp-kafka:7.6.0
@@ -33,12 +39,17 @@ services:
     depends_on:
       - app-zookeeper
     ports:
-      - "9092:9092"
+      - "9093:9093"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: app-zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://app-kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
 
   app-kafka-ui:
     image: provectuslabs/kafka-ui
@@ -47,7 +58,9 @@ services:
       - "8085:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: app-local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: localhost:9092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: app-kafka:9092
+    networks:
+      - app-network
 
   app-filebeat:
     image: 'docker.elastic.co/beats/filebeat:7.10.2'
@@ -60,6 +73,8 @@ services:
     depends_on:
       - app-zookeeper
       - app-kafka
+    networks:
+      - app-network
 
   app-logstash:
     image: 'docker.elastic.co/logstash/logstash:7.10.2'
@@ -72,6 +87,8 @@ services:
       - app-zookeeper
       - app-kafka
       - app-elasticsearch
+    networks:
+      - app-network
 
   app-elasticsearch:
     image: 'docker.elastic.co/elasticsearch/elasticsearch:7.10.2'
@@ -84,6 +101,8 @@ services:
       - "9300:9300"
     volumes:
       - ./.data/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - app-network
 
   app-kibana:
     image: 'docker.elastic.co/kibana/kibana:7.10.2'
@@ -95,3 +114,9 @@ services:
       - "5601:5601"
     depends_on:
       - app-elasticsearch
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
