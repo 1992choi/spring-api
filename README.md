@@ -46,6 +46,28 @@
 
 
 
+### 도커 명령어
+- mysql
+  - 컨테이너 접속
+    - docker exec -it app-mysql bash
+  - mysql root 계정으로 접속
+    - mysql -u root -p
+  - 데이터베이스 생성
+    - CREATE DATABASE api;
+    - CREATE DATABASE apisub;
+- Redis
+  - 컨테이너 접속
+    - docker exec -it app-redis redis-cli
+  - 키 확인
+    - keys *
+  - 모든 데이터 삭제
+    - FLUSHALL
+
+
+<hr>
+
+
+
 ### Endpoints
 - Spring boot
   - http://localhost:8080
