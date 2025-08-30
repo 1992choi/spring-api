@@ -5,79 +5,101 @@ import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableTransactionManagement(proxyTargetClass = true)
 @EnableJpaRepositories(
-        value = "choi.web.api.common.repository.jpa",
+        basePackages = "choi.web.api.common.repository.jpa",
         entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager"
 )
 public class JpaConfig {
 
-    @Bean(name = "hikariConfig")
-    @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public HikariConfig hikariConfig() {
-        return new HikariConfig();
+    // === Master/Slave HikariConfig ===
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.master")
+    public HikariConfig masterHikariConfig() { return new HikariConfig(); }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.slave")
+    public HikariConfig slaveHikariConfig() { return new HikariConfig(); }
+
+    // === Master/Slave DataSource ===
+    @Bean(name = "masterDataSource")
+    public DataSource masterDataSource(@Qualifier("masterHikariConfig") HikariConfig cfg) {
+        return new HikariDataSource(cfg);
     }
 
-    /**
-     * datasource
-     */
+    @Bean(name = "slaveDataSource")
+    public DataSource slaveDataSource(@Qualifier("slaveHikariConfig") HikariConfig cfg) {
+        return new HikariDataSource(cfg);
+    }
+
+    // === Routing DataSource (master/slave 분기) + LazyConnectionDataSourceProxy ===
+    @Primary
     @Bean(name = "dataSource")
-    @Primary
-    public HikariDataSource dataSource(@Qualifier("hikariConfig") HikariConfig hikariConfig) {
-        return new HikariDataSource(hikariConfig);
+    public DataSource routingDataSource(
+            @Qualifier("masterDataSource") DataSource master,
+            @Qualifier("slaveDataSource") DataSource slave
+    ) {
+        Map<Object, Object> targets = new HashMap<>();
+        targets.put("master", master);
+        targets.put("slave", slave);
+
+        MasterSlaveRoutingDataSourceConfig routing = new MasterSlaveRoutingDataSourceConfig();
+        routing.setTargetDataSources(targets);
+        routing.setDefaultTargetDataSource(master);
+        routing.afterPropertiesSet();
+
+        // 핵심: LazyConnectionDataSourceProxy로 감싸야 트랜잭션 readOnly 시점에서 라우팅 가능
+        return new LazyConnectionDataSourceProxy(routing);
     }
 
-    /**
-     * jpa entityManagerFactory
-     */
-    @Bean(name = "entityManagerFactory")
+    // === EntityManagerFactory ===
     @Primary
-    public EntityManagerFactory entityManagerFactory(@Qualifier("dataSource") DataSource dataSource) {
+    @Bean(name = "entityManagerFactory")
+    public EntityManagerFactory entityManagerFactory(@Qualifier("dataSource") DataSource routingDataSource) {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setPackagesToScan("choi.web.api.common.domain");
-        factory.setDataSource(dataSource);
-        factory.setPersistenceUnitName("MySQL"); // MySQL로 persistenceUnitName 변경
+        factory.setDataSource(routingDataSource);
+        factory.setPersistenceUnitName("MySQL");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setShowSql(true);
         factory.setJpaVendorAdapter(vendorAdapter);
 
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "none"); // 필요에 따라 "none", "create", "update"로 설정
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.put("hibernate.format_sql", true);
-        properties.put("hibernate.show_sql", true);
-        properties.put("hibernate.use_sql_comments", true);
-        properties.put("hibernate.globally_quoted_identifiers", true);
-        properties.put("hibernate.physical_naming_strategy", "choi.web.api.common.config.JpaNamingStrategyConfig");
-        factory.setJpaPropertyMap(properties);
+        Map<String, Object> props = new HashMap<>();
+        props.put("hibernate.hbm2ddl.auto", "create-drop");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+        props.put("hibernate.format_sql", true);
+        props.put("hibernate.show_sql", true);
+        props.put("hibernate.use_sql_comments", true);
+        props.put("hibernate.globally_quoted_identifiers", true);
+        props.put("hibernate.physical_naming_strategy", "choi.web.api.common.config.JpaNamingStrategyConfig");
+        factory.setJpaPropertyMap(props);
         factory.afterPropertiesSet();
 
         return factory.getObject();
     }
 
-    @Bean(name = "transactionManager")
+    // === Transaction Manager ===
     @Primary
-    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-
-        return transactionManager;
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(
+            @Qualifier("entityManagerFactory") EntityManagerFactory emf
+    ) {
+        return new JpaTransactionManager(emf);
     }
-
 }

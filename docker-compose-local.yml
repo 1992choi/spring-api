@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  app-mysql:
-    container_name: app-mysql
+  app-mysql-master:
+    container_name: app-mysql-master
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: 1234
@@ -11,6 +11,17 @@ services:
       - ./ops/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    networks:
+      - app-network
+
+  app-mysql-slave:
+    container_name: app-mysql-slave
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: api
+    ports:
+      - "3307:3306"
     networks:
       - app-network
 

@@ -111,3 +111,7 @@
   - 프리티어 스펙 이슈로 GitHub Actions 비활성화
     - deploy.yml 일부 주석 상태
     - 낮은 스펙으로 배포했을 때는 성공
+- DB - Master / Slave 구조
+  - dev 환경도 구성 필요
+  - 해당 구조로 인하여 Slave에는 테이블 수기 생성 필요
+    - DB 초기화 스크립트 생성 필요
